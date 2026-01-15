@@ -1,8 +1,6 @@
 USE social_trigger_db;
 
-/* =================================================
-   1. TẠO BẢNG friendships
-================================================= */
+-- 1. TẠO BẢNG friendships
 CREATE TABLE friendships (
     follower_id INT,
     followee_id INT,
@@ -11,10 +9,7 @@ CREATE TABLE friendships (
     FOREIGN KEY (follower_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (followee_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
-
-/* =================================================
-   2. TRIGGER CẬP NHẬT follower_count
-================================================= */
+-- 2. TRIGGER CẬP NHẬT follower_count
 
 -- Sau khi FOLLOW (accepted)
 DROP TRIGGER IF EXISTS trg_after_insert_friendship;
@@ -48,9 +43,7 @@ BEGIN
 END //
 DELIMITER ;
 
-/* =================================================
-   3. PROCEDURE follow_user
-================================================= */
+-- 3. PROCEDURE follow_user
 DROP PROCEDURE IF EXISTS follow_user;
 DELIMITER //
 
@@ -81,10 +74,7 @@ BEGIN
     VALUES (p_follower_id, p_followee_id, p_status);
 END //
 DELIMITER ;
-
-/* =================================================
-   4. VIEW user_profile (CHI TIẾT)
-================================================= */
+-- 4. VIEW user_profile (CHI TIẾT)
 CREATE OR REPLACE VIEW user_profile AS
 SELECT
     u.user_id,
@@ -98,9 +88,7 @@ LEFT JOIN user_statistics us ON u.user_id = us.user_id
 LEFT JOIN posts p ON u.user_id = p.user_id
 GROUP BY u.user_id, u.username, u.follower_count, u.post_count, us.total_likes;
 
-/* =================================================
-   5. KIỂM THỬ FOLLOW / UNFOLLOW
-================================================= */
+-- 5. KIỂM THỬ FOLLOW / UNFOLLOW
 
 --  FOLLOW hợp lệ
 CALL follow_user(2, 1, 'accepted'); -- Bob follow Alice
