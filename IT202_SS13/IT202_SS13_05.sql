@@ -1,8 +1,5 @@
 USE social_trigger_db;
-
-/* =========================================
-   1. STORED PROCEDURE add_user
-========================================= */
+-- 1. STORED PROCEDURE add_user
 DROP PROCEDURE IF EXISTS add_user;
 DELIMITER //
 
@@ -17,10 +14,7 @@ BEGIN
 END //
 DELIMITER ;
 
-/* =========================================
-   2. TRIGGER BEFORE INSERT ON users
-   Kiểm tra toàn vẹn dữ liệu
-========================================= */
+-- 2. TRIGGER BEFORE INSERT ON users Kiểm tra toàn vẹn dữ liệu
 DROP TRIGGER IF EXISTS trg_before_insert_user;
 DELIMITER //
 
@@ -42,9 +36,7 @@ BEGIN
 END //
 DELIMITER ;
 
-/* =========================================
-   3. KIỂM THỬ PROCEDURE + TRIGGER
-========================================= */
+-- 3. KIỂM THỬ PROCEDURE + TRIGGER
 
 --  HỢP LỆ
 CALL add_user('valid_user_01', 'valid01@example.com', '2025-01-20');
@@ -54,8 +46,5 @@ CALL add_user('invaliduser', 'invalidemail', '2025-01-20');
 
 --  Username chứa ký tự đặc biệt
 CALL add_user('invalid-user!', 'user2@example.com', '2025-01-20');
-
-/* =========================================
-   4. KIỂM TRA KẾT QUẢ
-========================================= */
+-- 4. KIỂM TRA KẾT QUẢ
 SELECT * FROM users;
